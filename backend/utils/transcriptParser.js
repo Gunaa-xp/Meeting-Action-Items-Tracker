@@ -65,7 +65,8 @@ const cleanTask = (line) => {
 
 const isActionLine = (line) => {
   const actionKeywords = /\b(will|assigned to|need to|must|should|action|todo|follow up|prepare|schedule|review|send|update|complete|finalize)\b/i;
-  return actionKeywords.test(line);
+  const ownerToPattern = /^[A-Z][a-z]+\s+to\b/i;
+  return actionKeywords.test(line) || ownerToPattern.test(line);
 };
 
 const parseTranscript = (text) => {
