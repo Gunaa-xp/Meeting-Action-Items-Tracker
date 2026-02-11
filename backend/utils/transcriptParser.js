@@ -64,7 +64,7 @@ const cleanTask = (line) => {
 };
 
 const isActionLine = (line) => {
-  const actionKeywords = /\b(will|to|assigned to|need to|must|should|action|todo|follow up|prepare|schedule|review|send|update|complete|finalize)\b/i;
+  const actionKeywords = /\b(will|assigned to|need to|must|should|action|todo|follow up|prepare|schedule|review|send|update|complete|finalize)\b/i;
   return actionKeywords.test(line);
 };
 
