@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 
 const actionRoutes = require('./routes/actionRoutes');
 const transcriptRoutes = require('./routes/transcriptRoutes');
+const statusRoutes = require('./routes/status');
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/actions', actionRoutes);
 app.use('/api/transcripts', transcriptRoutes);
+app.use('/api/status', statusRoutes);
 
 app.use((err, _req, res, _next) => {
   // eslint-disable-next-line no-console

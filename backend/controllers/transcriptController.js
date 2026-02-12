@@ -7,7 +7,7 @@ const processTranscript = async (req, res, next) => {
     const { text } = req.body;
 
     if (!text || !text.trim()) {
-      return res.status(400).json({ message: 'Transcript text is required.' });
+      return res.status(400).json({ error: 'Transcript text is required' });
     }
 
     const extractedCandidates = parseTranscript(text);

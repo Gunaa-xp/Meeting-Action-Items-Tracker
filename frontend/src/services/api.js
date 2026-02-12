@@ -13,3 +13,5 @@ export const processTranscript = (text) => api.post('/transcripts/process', { te
 export const getTranscriptHistory = () => api.get('/transcripts/history');
 
 export default api;
+
+export const getStatus = () => api.get('/status');

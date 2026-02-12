@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ActionItemModal from '../components/ActionItemModal';
 import ActionItemsTable from '../components/ActionItemsTable';
 import FiltersBar from '../components/FiltersBar';
@@ -21,9 +22,12 @@ function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const [filters, setFilters] = useState({ status: 'all', stepType: 'all', tag: 'all' });
 
   const editableItem = editingItem && editingItem._id ? editingItem : null;
+
+  const extractApiError = (err, fallback) => err.response?.data?.message || err.response?.data?.error || fallback;
 
   const loadActions = async () => {
     const { data } = await getActions();
@@ -40,7 +44,7 @@ function DashboardPage() {
       setError('');
       await Promise.all([loadActions(), loadHistory()]);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load dashboard data.');
+      setError(extractApiError(err, 'Failed to load dashboard data.'));
     }
   };
 
@@ -52,11 +56,16 @@ function DashboardPage() {
     try {
       setLoadingTranscript(true);
       setError('');
+      setNotice('');
       const { data } = await processTranscript(text);
-      setItems((prev) => [...data.extractedItems, ...prev]);
+      const extractedItems = data.extractedItems || [];
+      if (extractedItems.length === 0) {
+        setNotice('No action items found');
+      }
+      setItems((prev) => [...extractedItems, ...prev]);
       await loadHistory();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to process transcript.');
+      setError(extractApiError(err, 'Failed to process transcript.'));
     } finally {
       setLoadingTranscript(false);
     }
@@ -75,7 +84,7 @@ function DashboardPage() {
       setIsModalOpen(false);
       setEditingItem(null);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save action item.');
+      setError(extractApiError(err, 'Failed to save action item.'));
     }
   };
 
@@ -84,7 +93,7 @@ function DashboardPage() {
       await deleteAction(id);
       setItems((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to delete action item.');
+      setError(extractApiError(err, 'Failed to delete action item.'));
     }
   };
 
@@ -95,7 +104,7 @@ function DashboardPage() {
       });
       setItems((prev) => prev.map((entry) => (entry._id === data._id ? data : entry)));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update status.');
+      setError(extractApiError(err, 'Failed to update status.'));
     }
   };
 
@@ -129,11 +138,18 @@ function DashboardPage() {
     <main className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold">Meeting Action Items Tracker</h1>
+          <Link
+            to="/"
+            className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          >
+            ← Back to Home
+          </Link>
+          <h1 className="mt-3 text-2xl font-bold">Meeting Action Items Tracker</h1>
           <p className="text-slate-600 mt-1">Extract and manage tasks from meeting transcripts.</p>
         </div>
 
         {error && <div className="mb-4 rounded-lg bg-red-100 text-red-700 px-3 py-2">{error}</div>}
+        {notice && <div className="mb-4 rounded-lg bg-amber-100 text-amber-700 px-3 py-2">{notice}</div>}
 
         <div className="grid lg:grid-cols-[1fr_320px] gap-4">
           <div className="space-y-4">
