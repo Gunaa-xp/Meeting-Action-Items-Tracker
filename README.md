@@ -22,7 +22,7 @@ Database
 
 AI
 
-* Google Gemini (optional)
+* Google Gemini 
 
 ---
 
@@ -61,10 +61,11 @@ cd <project-folder>
 
 ```
 cd backend
+cp .env.example .env
 npm install
 ```
 
-Create a `.env` file:
+update a `.env` file:
 
 ```
 PORT=5000
@@ -75,7 +76,7 @@ GEMINI_API_KEY=your_gemini_api_key   (optional)
 Run backend:
 
 ```
-npm start
+npm run dev
 ```
 
 ---
@@ -84,10 +85,11 @@ npm start
 
 ```
 cd frontend
+cp .env.example .env
 npm install
 ```
 
-Create a `.env` file:
+Update a `.env` file:
 
 ```
 VITE_API_URL=http://localhost:5000
@@ -127,8 +129,3 @@ http://localhost:5173
 
 ---
 
-## Notes
-
-* If `GEMINI_API_KEY` is not provided, the app automatically uses rule-based extraction.
-* Status page is available at `/status`.
-* Dashboard is available at `/dashboard`.
