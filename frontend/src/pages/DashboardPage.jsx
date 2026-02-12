@@ -153,7 +153,7 @@ function DashboardPage() {
 
         <div className="grid lg:grid-cols-[1fr_320px] gap-4">
           <div className="space-y-4">
-            <TranscriptPanel onProcess={handleProcessTranscript} loading={loadingTranscript} />
+            <TranscriptPanel onProcess={handleProcessTranscript} loading={loadingTranscript} aiEnabled />
             <TemplateBar onApplyTemplate={handleApplyTemplate} />
             <FiltersBar filters={filters} setFilters={setFilters} availableTags={availableTags} />
 
