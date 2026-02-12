@@ -1,118 +1,134 @@
 # Meeting Action Items Tracker
 
-Production-ready full-stack application to extract and manage action items from meeting transcripts.
+A full-stack web application that converts meeting transcripts into structured action items.
+The app supports AI-assisted extraction (Google Gemini) with a rule-based fallback for reliability.
 
-## Folder Structure
+## Tech Stack
 
-```text
-Meeting-Action-Items-Tracker/
-├── backend/
-│   ├── controllers/
-│   │   ├── actionController.js
-│   │   └── transcriptController.js
-│   ├── models/
-│   │   ├── ActionItem.js
-│   │   └── Transcript.js
-│   ├── routes/
-│   │   ├── actionRoutes.js
-│   │   └── transcriptRoutes.js
-│   ├── utils/
-│   │   └── transcriptParser.js
-│   ├── .env.example
-│   ├── package.json
-│   ├── render.yaml
-│   └── server.js
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ActionItemModal.jsx
-│   │   │   ├── ActionItemsTable.jsx
-│   │   │   ├── FiltersBar.jsx
-│   │   │   ├── HistoryPanel.jsx
-│   │   │   ├── TemplateBar.jsx
-│   │   │   └── TranscriptPanel.jsx
-│   │   ├── pages/
-│   │   │   └── DashboardPage.jsx
-│   │   ├── services/
-│   │   │   ├── api.js
-│   │   │   └── constants.js
-│   │   ├── App.jsx
-│   │   ├── index.css
-│   │   └── main.jsx
-│   ├── .env.example
-│   ├── index.html
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── tailwind.config.js
-│   ├── vercel.json
-│   └── vite.config.js
-└── README.md
+Frontend
+
+* React (Vite)
+* Tailwind CSS
+* Axios
+
+Backend
+
+* Node.js
+* Express
+
+Database
+
+* MongoDB Atlas
+
+AI
+
+* Google Gemini (optional)
+
+---
+
+## Features Implemented
+
+* Paste meeting transcript and extract action items
+* AI-based extraction using Gemini (if API key provided)
+* Automatic fallback to rule-based parsing if AI is unavailable
+* Edit, add, delete action items
+* Mark items as Open / Done
+* Filters by status, tags, and step type
+* Transcript history (last 5)
+* Templates and step types
+* Home page with usage steps
+* System Status page
+
+  * Backend health
+  * Database connection
+  * LLM configuration status
+* Input validation and error handling
+
+---
+
+## How to Run Locally
+
+### 1. Clone the repository
+
+```
+git clone <your-repo-url>
+cd <project-folder>
 ```
 
-## Backend API Endpoints
+---
 
-- `POST /api/transcripts/process`
-- `GET /api/transcripts/history`
-- `GET /api/actions`
-- `POST /api/actions`
-- `PUT /api/actions/:id`
-- `DELETE /api/actions/:id`
+### 2. Backend Setup
 
-## Setup Instructions
-
-### 1) Backend Setup
-
-```bash
+```
 cd backend
-cp .env.example .env
 npm install
-npm run dev
 ```
 
-Update `.env`:
+Create a `.env` file:
 
-- `PORT=5000`
-- `MONGO_URI=<your-mongodb-atlas-connection-string>`
+```
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+GEMINI_API_KEY=your_gemini_api_key   (optional)
+```
 
-### 2) Frontend Setup
+Run backend:
 
-```bash
+```
+npm start
+```
+
+---
+
+### 3. Frontend Setup
+
+```
 cd frontend
-cp .env.example .env
 npm install
+```
+
+Create a `.env` file:
+
+```
+VITE_API_URL=http://localhost:5000
+```
+
+Run frontend:
+
+```
 npm run dev
 ```
 
-Update `.env`:
+Open:
+http://localhost:5173
 
-- `VITE_API_URL=http://localhost:5000/api`
+---
 
-## Deployment
+## What is Done
 
-### Deploy Backend to Render
+* Full-stack working application
+* MongoDB integration
+* AI + non-AI extraction modes
+* Health monitoring endpoint
+* Clean UI with responsive design
+* Basic validation and error handling
+* Deployment-ready structure (Vercel + Render)
 
-1. Push repository to GitHub.
-2. In Render, create a new **Web Service**.
-3. Set root directory to `backend`.
-4. Build command: `npm install`
-5. Start command: `npm start`
-6. Add environment variables:
-   - `MONGO_URI`
-   - `PORT=10000`
-7. Deploy.
+---
 
-### Deploy Frontend to Vercel
+## What is Not Done / Future Improvements
 
-1. Import repository in Vercel.
-2. Set root directory to `frontend`.
-3. Build command: `npm run build`
-4. Output directory: `dist`
-5. Add environment variable:
-   - `VITE_API_URL=<your-render-backend-url>/api`
-6. Deploy.
+* User authentication
+* Multi-user workspace
+* Real-time collaboration
+* Advanced NLP accuracy improvements
+* File/audio transcript upload
+* Production-level logging and monitoring
+
+---
 
 ## Notes
 
-- Transcript history stores only the latest 5 transcript records.
-- Transcript parser uses keyword and regex-based extraction logic.
-- App supports manual action creation, editing, tagging, filtering, templates, and status updates.
+* If `GEMINI_API_KEY` is not provided, the app automatically uses rule-based extraction.
+* Status page is available at `/status`.
+* Dashboard is available at `/dashboard`.
