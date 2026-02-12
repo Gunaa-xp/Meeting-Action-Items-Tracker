@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getStatus } from '../services/api';
 
 const statusConfig = {
@@ -38,7 +39,13 @@ function Status() {
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-10">
       <div className="mx-auto w-full max-w-5xl">
-        <h1 className="text-3xl font-bold text-slate-900">System Status</h1>
+        <Link
+          to="/"
+          className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+        >
+          ← Back to Home
+        </Link>
+        <h1 className="mt-3 text-3xl font-bold text-slate-900">System Status</h1>
         <p className="mt-2 text-slate-600">Live health of backend services and integrations.</p>
 
         {error && <div className="mt-4 rounded-lg bg-red-100 px-4 py-2 text-red-700">{error}</div>}

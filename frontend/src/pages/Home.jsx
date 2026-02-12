@@ -26,12 +26,18 @@ function Home() {
           ))}
         </ol>
 
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             to="/dashboard"
-            className="inline-flex items-center rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white hover:bg-blue-700"
+            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white hover:bg-blue-700"
           >
             Go to Workspace
+          </Link>
+          <Link
+            to="/status"
+            className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-2.5 font-medium text-slate-700 hover:bg-slate-100"
+          >
+            View System Status
           </Link>
         </div>
       </section>

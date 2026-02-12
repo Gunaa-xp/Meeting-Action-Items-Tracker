@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ActionItemModal from '../components/ActionItemModal';
 import ActionItemsTable from '../components/ActionItemsTable';
 import FiltersBar from '../components/FiltersBar';
@@ -137,7 +138,13 @@ function DashboardPage() {
     <main className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold">Meeting Action Items Tracker</h1>
+          <Link
+            to="/"
+            className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          >
+            ← Back to Home
+          </Link>
+          <h1 className="mt-3 text-2xl font-bold">Meeting Action Items Tracker</h1>
           <p className="text-slate-600 mt-1">Extract and manage tasks from meeting transcripts.</p>
         </div>
 
