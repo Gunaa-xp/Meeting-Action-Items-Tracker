@@ -3,53 +3,6 @@
 A full-stack web application that converts meeting transcripts into structured action items.
 The app supports AI-assisted extraction (Google Gemini) with a rule-based fallback for reliability.
 
-## Folder Structure
-
-```text
-Meeting-Action-Items-Tracker/
-├── backend/
-│   ├── controllers/
-│   │   ├── actionController.js
-│   │   └── transcriptController.js
-│   ├── models/
-│   │   ├── ActionItem.js
-│   │   └── Transcript.js
-│   ├── routes/
-│   │   ├── actionRoutes.js
-│   │   └── transcriptRoutes.js
-│   ├── utils/
-│   │   └── transcriptParser.js
-│   ├── .env.example
-│   ├── package.json
-│   ├── render.yaml
-│   └── server.js
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ActionItemModal.jsx
-│   │   │   ├── ActionItemsTable.jsx
-│   │   │   ├── FiltersBar.jsx
-│   │   │   ├── HistoryPanel.jsx
-│   │   │   ├── TemplateBar.jsx
-│   │   │   └── TranscriptPanel.jsx
-│   │   ├── pages/
-│   │   │   └── DashboardPage.jsx
-│   │   ├── services/
-│   │   │   ├── api.js
-│   │   │   └── constants.js
-│   │   ├── App.jsx
-│   │   ├── index.css
-│   │   └── main.jsx
-│   ├── .env.example
-│   ├── index.html
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── tailwind.config.js
-│   ├── vercel.json
-│   └── vite.config.js
-└── README.md
-```
-
 ## Tech Stack
 
 Frontend
