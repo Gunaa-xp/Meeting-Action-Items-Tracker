@@ -34,6 +34,7 @@ function TranscriptPanel({ onProcess, loading }) {
           className="w-full rounded-lg border border-slate-300 px-3 py-2 min-h-36 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         {validationError && <p className="text-sm text-red-600">{validationError}</p>}
+        {loading && <p className="text-sm text-blue-600">Processing with AI...</p>}
         <button
           type="submit"
           disabled={loading || isEmpty}
