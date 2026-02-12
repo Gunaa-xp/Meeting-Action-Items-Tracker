@@ -65,7 +65,7 @@ cp .env.example .env
 npm install
 ```
 
-update a `.env` file:
+update the `.env` file:
 
 ```
 PORT=5000
@@ -89,7 +89,7 @@ cp .env.example .env
 npm install
 ```
 
-Update a `.env` file:
+Update the `.env` file:
 
 ```
 VITE_API_URL=http://localhost:5000
