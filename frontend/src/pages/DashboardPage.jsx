@@ -21,9 +21,12 @@ function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const [filters, setFilters] = useState({ status: 'all', stepType: 'all', tag: 'all' });
 
   const editableItem = editingItem && editingItem._id ? editingItem : null;
+
+  const extractApiError = (err, fallback) => err.response?.data?.message || err.response?.data?.error || fallback;
 
   const loadActions = async () => {
     const { data } = await getActions();
@@ -40,7 +43,7 @@ function DashboardPage() {
       setError('');
       await Promise.all([loadActions(), loadHistory()]);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load dashboard data.');
+      setError(extractApiError(err, 'Failed to load dashboard data.'));
     }
   };
 
@@ -52,11 +55,16 @@ function DashboardPage() {
     try {
       setLoadingTranscript(true);
       setError('');
+      setNotice('');
       const { data } = await processTranscript(text);
-      setItems((prev) => [...data.extractedItems, ...prev]);
+      const extractedItems = data.extractedItems || [];
+      if (extractedItems.length === 0) {
+        setNotice('No action items found');
+      }
+      setItems((prev) => [...extractedItems, ...prev]);
       await loadHistory();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to process transcript.');
+      setError(extractApiError(err, 'Failed to process transcript.'));
     } finally {
       setLoadingTranscript(false);
     }
@@ -75,7 +83,7 @@ function DashboardPage() {
       setIsModalOpen(false);
       setEditingItem(null);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save action item.');
+      setError(extractApiError(err, 'Failed to save action item.'));
     }
   };
 
@@ -84,7 +92,7 @@ function DashboardPage() {
       await deleteAction(id);
       setItems((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to delete action item.');
+      setError(extractApiError(err, 'Failed to delete action item.'));
     }
   };
 
@@ -95,7 +103,7 @@ function DashboardPage() {
       });
       setItems((prev) => prev.map((entry) => (entry._id === data._id ? data : entry)));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update status.');
+      setError(extractApiError(err, 'Failed to update status.'));
     }
   };
 
@@ -134,6 +142,7 @@ function DashboardPage() {
         </div>
 
         {error && <div className="mb-4 rounded-lg bg-red-100 text-red-700 px-3 py-2">{error}</div>}
+        {notice && <div className="mb-4 rounded-lg bg-amber-100 text-amber-700 px-3 py-2">{notice}</div>}
 
         <div className="grid lg:grid-cols-[1fr_320px] gap-4">
           <div className="space-y-4">
