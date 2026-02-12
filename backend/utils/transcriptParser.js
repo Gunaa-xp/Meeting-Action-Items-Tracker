@@ -3,8 +3,12 @@ const { STEP_TYPES } = require('../models/ActionItem');
 const splitIntoCandidates = (text) => {
   return text
     .split(/\n|\.|;|\?|!/)
-    .map((segment) => segment.trim())
+    .map((segment) => stripListPrefix(segment.trim()))
     .filter(Boolean);
+};
+
+const stripListPrefix = (line) => {
+  return line.replace(/^\s*(?:(?:[-*•]+|\d+[.)]|\[[ xX]\])\s+)*/, '');
 };
 
 const parseDueDate = (input) => {
@@ -29,6 +33,7 @@ const parseDueDate = (input) => {
 };
 
 const parseOwner = (line) => {
+  const normalizedLine = stripListPrefix(line);
   const ownerPatterns = [
     /^([A-Z][a-z]+)\s+will\b/i,
     /^([A-Z][a-z]+)\s+to\b/i,
@@ -36,7 +41,7 @@ const parseOwner = (line) => {
   ];
 
   for (const pattern of ownerPatterns) {
-    const match = line.match(pattern);
+    const match = normalizedLine.match(pattern);
     if (match?.[1]) {
       return match[1].trim();
     }
@@ -56,7 +61,7 @@ const inferStepType = (task) => {
 };
 
 const cleanTask = (line) => {
-  return line
+  return stripListPrefix(line)
     .replace(/^([A-Z][a-z]+)\s+(will|to)\s+/i, '')
     .replace(/assigned\s+to\s+[A-Z][a-z]+/i, '')
     .replace(/\s+(by|due\s+on|due|before)\s+[A-Za-z0-9\s,-]+$/i, '')
@@ -64,8 +69,10 @@ const cleanTask = (line) => {
 };
 
 const isActionLine = (line) => {
+  const normalizedLine = stripListPrefix(line);
   const actionKeywords = /\b(will|assigned to|need to|must|should|action|todo|follow up|prepare|schedule|review|send|update|complete|finalize)\b/i;
-  return actionKeywords.test(line);
+  const ownerToPattern = /^(?:[-*•]+|\d+[.)]|\[[ xX]\])?\s*[A-Z][a-z]+\s+to\b/i;
+  return actionKeywords.test(normalizedLine) || ownerToPattern.test(normalizedLine);
 };
 
 const parseTranscript = (text) => {
